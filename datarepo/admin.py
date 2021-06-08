@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, chats, status, groups
+from .models import CustomUser, contacts, chats, status, groups
 
 
 # Register your models here.
@@ -19,26 +19,33 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+class contactsAdmin(admin.ModelAdmin):
+    list_display = ['contact_name', 'contact_number']
+    list_filter = ['contact_name', 'contact_number']
+    search_fields = ['contact_name', 'contact_number']
+
+
 class chatsAdmin(admin.ModelAdmin):
-    list_display = ['user_name', 'message', 'created']
-    list_filter = ['user_name', 'message']
-    search_fields = ['user_name', 'message']
+    list_display = ['contact_number', 'message', 'created']
+    list_filter = ['contact_number', 'message']
+    search_fields = ['contact_number', 'message']
 
 
 class statusAdmin(admin.ModelAdmin):
-    list_display = ['user', 'image', 'created']
-    list_filter = ['user']
-    search_fields = ['user']
+    list_display = ['contact_number', 'text', 'image', 'created']
+    list_filter = ['contact_number']
+    search_fields = ['contact_number']
 
 
 class groupsAdmin(admin.ModelAdmin):
-    fields = ['username', 'message', 'created']
-    list_display = ['message', 'created']
-    list_filter = ['username']
-    search_fields = ['username']
+    fields = ['contact_number', 'group_name', 'group_image', 'description', 'message', 'created']
+    list_display = ['group_name', 'group_image', 'description', 'message', 'created']
+    list_filter = ['contact_number', 'group_name']
+    search_fields = ['contact_number', 'group_name']
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(contacts, contactsAdmin)
 admin.site.register(chats, chatsAdmin)
 admin.site.register(status, statusAdmin)
 admin.site.register(groups, groupsAdmin)
